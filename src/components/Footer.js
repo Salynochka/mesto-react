@@ -1,8 +1,6 @@
 import React from 'react';
 
-export function Footer (props) {
-
-
+function Footer () {
     return(
       <footer className="footer">
         <p className="footer__sign">&copy; 2023 Mesto Russia</p>
@@ -10,4 +8,4 @@ export function Footer (props) {
     
 }
 
-//export default Footer
+export default Footer

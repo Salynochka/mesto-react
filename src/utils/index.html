@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="Ru">
+  <head>
+    <title>Mesto</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Места мира">
+    <meta name="author" content="Алена Салынская">
+  </head>
+<body class="page">
+  <header class="header">
+    <div class="header__logo"></div>
+  </header>
+  <main>
+    <section class="profile">
+      <div class="profile__container">
+        <img class="profile__photo" src="<%=require('./images/photo.jpg')%>" alt="Фото Жак-Ив Кусто">
+        <div class="profile__cover"><img class="profile__pencil" src="<%=require('./images/pencil.svg')%>" alt="Карандаш"></div>
+      </div>
+      <div class="profile__info">
+        <div class="profile__entry">
+          <h1 class="profile__name">Данные отсутствуют</h1>
+          <button class="profile__changes" type="button"></button>
+        </div>
+        <h2 class="profile__description">Данные отсутствуют</h2>
+      </div>
+      <button class="profile__button-add" type="button"></button>
+    </section>
+    <section class="cards">
+      <template class="card__template">
+        <article class="card">
+          <button class="card__delete-button" type="button"></button>
+          <div class="card__info">
+            <img class="card__photo">
+            <div class="card__subscribe">
+              <h2 class="card__title"></h2>
+              <div class="card__like-section">
+                <button class="card__like" type="button"></button>
+                <span class="card__like-counter"></span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </template>
+    </section>
+    <section class="popup popup-update">
+      <div class="popup__container popup-update__container">
+        <button class="popup__button-close" type="button"></button>
+        <h2 class="popup__heading">Обновить аватар</h2>
+        <form class="popup__form popup-update__form" name="information-update">
+          <fieldset class="popup__input">
+            <input type="url" class="popup__item popup__item_type_avatar" name="avatar" placeholder="Ссылка на аватар" required>
+            <span class="popup__form-error popup__form-error_type_avatar avatar-error"></span>
+          </fieldset>
+          <button class="popup__button" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </section>
+    <section class="popup popup-edit">
+      <div class="popup__container">
+        <button class="popup__button-close" type="button"></button>
+        <h2 class="popup__heading">Редактировать профиль</h2>
+        <form class="popup__form popup-edit__form" name="information-edit">
+          <fieldset class="popup__input">
+            <input type="text" class="popup__item popup__item_type_name" name="name" minlength="2" maxlength="40"required>
+            <span class="popup__form-error popup__form-error_type_name name-error"></span>
+            <input type="text" class="popup__item popup__item_type_about" name="about" minlength="2" maxlength="200" required>
+            <span class="popup__form-error popup__form-error_type_about about-error"></span>
+          </fieldset>
+          <button class="popup__button" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </section>
+    <section class="popup popup-add">
+      <div class="popup__container">
+        <button class="popup__button-close" type="button"></button>
+        <h2 class="popup__heading">Новое место</h2>
+        <form class="popup__form popup-add__form" name="information-add">
+          <fieldset class="popup__input">
+            <input type="text" class="popup__item popup__item_type_name" name="name" placeholder="Название" minlength="2" maxlength="30" required>
+            <span class="popup__form-error popup__form-error_type_name name-error"></span>
+            <input type="url" class="popup__item popup__item_type_link" placeholder="Ссылка на картинку" name="link" required>
+            <span class="popup__form-error popup__form-error_type_link link-error"></span>
+          </fieldset>
+          <button class="popup__button" type="submit">Создать</button>
+        </form>
+      </div>
+    </section>
+    <section class="popup popup-confirmation">
+      <div class="popup__container popup-confirmation__container">
+        <button class="popup__button-close" type="button"></button>
+        <h2 class="popup-confirmation__heading">Вы уверены?</h2>
+        <form class="popup__form">
+          <button class="popup__button" type="submit">Да</button>
+        </form>
+      </div>
+    </section>
+    <section class="popup popup-increase">
+      <div class="popup-increase__container">
+        <img class="popup-increase__photo" src="#">
+        <button class="popup__button-close popup-increase__button-close" type="button"></button>
+        <h2 class="popup-increase__heading"></h2>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <p class="footer__sign">&copy; 2022 Mesto Russia</p>
+  </footer>
+</body>
+</html>

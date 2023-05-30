@@ -1,45 +1,55 @@
-//import React from 'react';
-import mainPhoto from '../images/photo.jpg';
+import React from 'react';
+//import mainPhoto from '../images/photo.jpg';
 import pencil from '../images/pencil.svg';
+import {api} from '../utils/api.js';
+import Card from './Card.js'
 
+function Main (props) {
+  const [userName, setUserName] = React.useState('')
+  const [userDescription, setUserDescription] = React.useState('')
+  const [userAvatar, setUserAvatar] = React.useState('')
 
-export function Main (props) {
+  React.useEffect(()=>{
+    api.getUserInfo()
+      .then((res) => {
+        setUserName(res.name)
+        setUserDescription(res.about)
+        setUserAvatar(res.avatar)
+      })
+     .catch((err) => console.error(`Ошибка: ${err}`));
+  }, [])
 
       return (
         <>
         <section className="profile">
           <div className="profile__container">
-            <img className="profile__photo" src={mainPhoto} alt="Фото Жак-Ив Кусто" />
-            <button className="profile__cover" onClick={handleEditAvatarClick}><img className="profile__pencil" src={pencil} alt="Карандаш" /></button>
+            <img className="profile__photo" src={userAvatar} alt="Фото Жак-Ив Кусто" />
+            <button className="profile__cover" onClick={()=>{props.onEditAvatar(true)}}><img className="profile__pencil" src={pencil} alt="Карандаш" /></button>
           </div>
           <div className="profile__info">
             <div className="profile__entry">
-              <h1 className="profile__name">Данные отсутствуют</h1>
-              <button className="profile__changes" onClick={handleEditProfileClick} type="button"></button>
+              <h1 className="profile__name">{userName}</h1>
+              <button className="profile__changes" onClick={()=>{props.onEditProfile(true)}} type="button"></button>
             </div>
-            <h2 className="profile__description">Данные отсутствуют</h2>
+            <h2 className="profile__description">{userDescription}</h2>
           </div>
-          <button className="profile__button-add" onClick={handleAddPlaceClick} type="button"></button>
+          <button className="profile__button-add" onClick={()=>{props.onAddPlace(true)}} type="button"></button>
         </section>
         <section className="cards">
-          <template className="card__template">
-            <article className="card">
-              <button className="card__delete-button" type="button"></button>
-              <div className="card__info">
-                <img className="card__photo" />
-                <div className="card__subscribe">
-                  <h2 className="card__title"></h2>
-                  <div className="card__like-section">
-                    <button className="card__like" type="button"></button>
-                    <span className="card__like-counter"></span>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </template>
+          {props.cards.map((card)=> (
+            <Card
+              onCardClick = {props.onCardClick}
+              link = {card.link}
+              name = {card.name}
+              likes = {card.likes}
+              card = {card}
+              key = {card.cardId}
+            />
+          ))}
         </section>
         </>
       )
   }
 
-  //export default Main
+  export default Main
+
