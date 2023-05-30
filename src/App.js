@@ -11,10 +11,9 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopup] = React.useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopup] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopup] = React.useState(false);
-  const [isImagePopupOpen, setImagePopup] = React.useState(false);
 
   const [cards, setCards] = React.useState([]);
-  const [selectedCard, setSelectedCard] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState({});
 
   React.useEffect(()=>{
     api.getCards()
@@ -44,15 +43,14 @@ function App() {
     setAddPlacePopup(true)
   }
 
-  function handleCardClick(){
-    setSelectedCard(true)
+  function handleCardClick(card){
+    setSelectedCard(card)
   }
 
   function closeAllPopups(){
     setEditAvatarPopup(false)
     setEditProfilePopup(false)
     setAddPlacePopup(false)
-    setImagePopup(false)
     setSelectedCard(false)
   }
 
@@ -118,7 +116,7 @@ function App() {
         <ImagePopup
           card = {selectedCard}
           onClose = {closeAllPopups}
-          isOpen = {isImagePopupOpen}
+          isOpen = {selectedCard}
         >
         </ImagePopup>
         <Footer />
