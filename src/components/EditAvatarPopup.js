@@ -3,15 +3,19 @@ import PopupWithForm from "./PopupWithForm.js";
 //import { CurrentUserContext } from "../context/CurrentUserContext.js";
 
 function EditAvatarPopup(props) {
-    const inputRef = React.useRef()
+  const inputRef = React.useRef('');
 
-    function handleSubmit(e) {
-        e.preventDefault();
-      
-        props.onUpdateAvatar({
-          avatar: inputRef.current.value,
-        });
-    }
+  React.useEffect(() => {
+    inputRef.current.value = '';
+  }, [props.isOpen]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    props.onUpdateAvatar({
+      avatar: inputRef.current.value
+    });
+  }
 
   return (
     <PopupWithForm
@@ -21,19 +25,20 @@ function EditAvatarPopup(props) {
       onClose={props.onClose}
       buttonText="Сохранить"
       onSubmit={handleSubmit}
-    >
-      <fieldset className="popup__input">
-        <input
-          type="url"
-          className="popup__item popup__item_type_avatar"
-          name="avatar"
-          placeholder="Ссылка на аватар"
-          ref={inputRef}
-          required
-        />
-        <span className="popup__form-error popup__form-error_type_avatar avatar-error" />
-      </fieldset>
-    </PopupWithForm>
+      children={
+        <fieldset className="popup__input">
+          <input
+            type="url"
+            className="popup__item popup__item_type_avatar"
+            name="avatar"
+            placeholder="Ссылка на аватар"
+            ref={inputRef}
+            required
+          />
+          <span className="popup__form-error popup__form-error_type_avatar avatar-error" />
+        </fieldset>
+      }
+    />
   );
 }
 

@@ -5,6 +5,7 @@ import Main from "./Main.js";
 import PopupWithForm from "./PopupWithForm.js";
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
+import AddPlacePopup from "./AddPlacePopup.js";
 import ImagePopup from "./ImagePopup.js";
 import { api } from "../utils/api.js";
 import { CurrentUserContext } from "../context/CurrentUserContext.js";
@@ -31,18 +32,9 @@ function App() {
 
   React.useEffect(() => {
     api
-      .getCards(cards)
+      .getCards()
       .then((card) => {
         setCards([...card]);
-       /* setCards(
-          card.map((item) => ({
-            link: item.link,
-            name: item.name,
-            key: item._id,
-            likes: item.likes,
-            owner: item.owner,
-          }))
-        );*/
       })
       .catch(console.error);
   }, []);
@@ -86,11 +78,9 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api.removeCard(card._id)
-      .then(() => 
-        setCards((state) => 
-          state.filter((c) => c._id !== card._id))
-    )
+    api
+      .removeCard(card._id)
+      .then(() => setCards((state) => state.filter((c) => c._id !== card._id)))
       .catch((err) => console.error(`Ошибка: ${err}`));
   }
 
@@ -101,7 +91,8 @@ function App() {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch((err) => console.error(`Ошибка: ${err}`));
+      .catch((err) => console.error(`Ошибка: ${err}`))
+      .finally(setCurrentUser({}));
   }
 
   function handleUpdateAvatar(avatar) {
@@ -109,19 +100,19 @@ function App() {
       .editAvatarPhoto(avatar)
       .then((res) => {
         setCurrentUser(res);
-        closeAllPopups();
       })
       .catch((err) => console.error(`Ошибка: ${err}`));
+    closeAllPopups();
   }
 
   function handleSubmitAddPlace(data) {
     api
       .createNewCard(data)
       .then((newCard) => {
-        setCards([newCard.data, ...cards]);
-        closeAllPopups();
+        setCards([newCard, ...cards]);
       })
       .catch((err) => console.error(`Ошибка: ${err}`));
+      closeAllPopups();
   }
 
   return (
@@ -148,35 +139,11 @@ function App() {
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
           />
-          <PopupWithForm
-            title="Новое место"
-            name="add"
+          <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-            buttonText="Создать"
-            handleSubmit={handleSubmitAddPlace}
-          >
-            <fieldset className="popup__input">
-              <input
-                type="text"
-                className="popup__item popup__item_type_name"
-                name="name"
-                placeholder="Название"
-                minLength="2"
-                maxLength="30"
-                required
-              />
-              <span className="popup__form-error popup__form-error_type_name name-error" />
-              <input
-                type="url"
-                className="popup__item popup__item_type_link"
-                placeholder="Ссылка на картинку"
-                name="link"
-                required
-              />
-              <span className="popup__form-error popup__form-error_type_link link-error" />
-            </fieldset>
-          </PopupWithForm>
+            onAddPlace={handleSubmitAddPlace}
+          />
           <PopupWithForm
             title="Вы уверены?"
             name="confitmation"
