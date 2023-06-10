@@ -13,6 +13,7 @@ function PopupWithForm(props) {
         />
         <h2 className="popup__heading">{props.title}</h2>
         <form
+          onSubmit={props.handleSubmit}
           className="popup__form popup-update__form"
           name={`information-${props.name}`}
         >

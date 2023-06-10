@@ -1,5 +1,3 @@
-import React from "react";
-
 class Api {
   constructor({ mainUrl, headers }) {
     this._mainUrl = mainUrl;
@@ -30,8 +28,8 @@ class Api {
   //Удаление карточки
   async removeCard(cardId) {
     const res = await fetch(`${this._mainUrl}/cards/${cardId}`, {
-      method: "DELETE",
       headers: this._headers,
+      method: "DELETE",
     });
     return this._checkStatus(res);
   }
@@ -85,6 +83,14 @@ class Api {
       headers: this._headers,
     });
     return this._checkStatus(res);
+  }
+
+  changeLikeCardStatus(cardId, isLiked) {
+    if (!isLiked) {
+      return api.addLike(cardId)
+    } else { 
+      return api.deleteLike(cardId)
+    }
   }
 
   //Проверка ответа от сервера
