@@ -92,7 +92,6 @@ function App() {
         closeAllPopups();
       })
       .catch((err) => console.error(`Ошибка: ${err}`))
-      .finally(setCurrentUser({}));
   }
 
   function handleUpdateAvatar(avatar) {
@@ -100,9 +99,9 @@ function App() {
       .editAvatarPhoto(avatar)
       .then((res) => {
         setCurrentUser(res);
+        closeAllPopups();
       })
       .catch((err) => console.error(`Ошибка: ${err}`));
-    closeAllPopups();
   }
 
   function handleSubmitAddPlace(data) {
@@ -110,9 +109,9 @@ function App() {
       .createNewCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);
+        closeAllPopups();
       })
       .catch((err) => console.error(`Ошибка: ${err}`));
-      closeAllPopups();
   }
 
   return (
